@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.musala'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-graphql'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	// https://mvnrepository.com/artifact/org.zalando/problem-spring-web-starter
+	implementation group: 'org.zalando', name: 'problem-spring-web-starter', version: '0.26.1'
+	// https://mvnrepository.com/artifact/org.hibernate/hibernate-envers
+	implementation group: 'org.hibernate', name: 'hibernate-envers', version: '6.2.7.Final', ext: 'pom'
+	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
+	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.23.1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework:spring-webflux'
+	testImplementation 'org.springframework.graphql:spring-graphql-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

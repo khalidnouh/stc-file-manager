@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="01" author="stc">
+
+        <createTable tableName="permission_group"
+                     remarks="Permission Group">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="group_name" type="varchar(256)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="item"
+                     remarks="Item">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="type" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="parent_id" type="int">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+            <column name="permission_group_id" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_modified" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="item" baseColumnNames="permission_group_id"
+                                 constraintName="item_permission_group_FK"
+                                 referencedTableName="permission_group" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="item" baseColumnNames="parent_id"
+                                 constraintName="item_parent_FK"
+                                 referencedTableName="item" referencedColumnNames="id"/>
+
+        <createTable tableName="permissions"
+                     remarks="Permissions">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="user_email" type="varchar(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="permission_level" type="varchar(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="permission_group_id" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+
+        <addForeignKeyConstraint baseTableName="permissions" baseColumnNames="permission_group_id"
+                                 constraintName="permissions_permission_group_FK"
+                                 referencedTableName="permission_group" referencedColumnNames="id"/>
+
+        <createTable tableName="files"
+                     remarks="Files">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="binary_file" type="blob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_id" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_by" type="varchar2(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="files" baseColumnNames="item_id"
+                                 constraintName="item_files_FK"
+                                 referencedTableName="item" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

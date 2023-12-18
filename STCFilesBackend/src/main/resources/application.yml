@@ -1,0 +1,19 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/stc?currentSchema=assessment
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
